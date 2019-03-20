@@ -21,7 +21,6 @@ public class LineaFactura implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Column
     @ManyToOne
     private Producto producto;
     

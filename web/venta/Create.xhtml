@@ -16,7 +16,7 @@
                         <p:selectOneMenu id="usuario" value="#{ventaController.selected.usuario}" >
                             <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
                                            var="usuarioItem"
-                                           itemValue="#{usuarioItem}"/>
+                                           itemValue="#{usuarioItem}" itemLabel="#{usuarioItem.nombre}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
                     <p:commandButton actionListener="#{ventaController.create}" value="#{bundle.Save}" update="display,:VentaListForm:datalist,:growl" oncomplete="handleSubmit(args,'VentaCreateDialog');"/>

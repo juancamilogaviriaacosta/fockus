@@ -16,7 +16,7 @@
                         <p:selectOneMenu id="producto" value="#{lineaFacturaController.selected.producto}" >
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"
                                            var="productoItem"
-                                           itemValue="#{productoItem}"/>
+                                           itemValue="#{productoItem}" itemLabel="#{productoItem.nombre}"/>
                         </p:selectOneMenu>
                         <p:outputLabel value="#{bundle.CreateLineaFacturaLabel_cantidad}" for="cantidad" />
                         <p:inputText id="cantidad" value="#{lineaFacturaController.selected.cantidad}" title="#{bundle.CreateLineaFacturaTitle_cantidad}" />

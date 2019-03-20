@@ -3,13 +3,19 @@ package co.com.controladores;
 import co.com.entidades.Venta;
 import co.com.controladores.util.JsfUtil;
 import co.com.controladores.util.JsfUtil.PersistAction;
+import co.com.entidades.LineaFactura;
+import co.com.entidades.Producto;
+import co.com.entidades.Usuario;
+import co.com.facades.ProductoFacade;
 import co.com.facades.VentaFacade;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.EJBException;
 import javax.inject.Named;
@@ -25,9 +31,29 @@ public class VentaController implements Serializable {
 
     @EJB
     private co.com.facades.VentaFacade ejbFacade;
+    
+    @EJB
+    private co.com.facades.ProductoFacade productoFacade;
+    
+    @EJB
+    private co.com.facades.UsuarioFacade usuarioFacade;
+    
     private List<Venta> items = null;
-    private Venta selected;
+    private List<Producto> productos = null;
+    private List<Usuario> usuarios = null;
 
+    private Venta selected;
+    private Integer cantidadSeleccionada;
+    private Long productoSeleccionado;
+    private Long usuarioSeleccionado;
+
+    @PostConstruct
+    public void PostConstruct (){
+        productos = productoFacade.findAll();
+        usuarios = usuarioFacade.findAll();
+    }
+    
+    
     public VentaController() {
     }
 
@@ -83,6 +109,7 @@ public class VentaController implements Serializable {
 
     private void persist(PersistAction persistAction, String successMessage) {
         if (selected != null) {
+            selected.setUsuario(buscarUsuario(usuarioSeleccionado));
             setEmbeddableKeys();
             try {
                 if (persistAction != PersistAction.DELETE) {
@@ -160,6 +187,84 @@ public class VentaController implements Serializable {
             }
         }
 
+    }
+
+    public VentaFacade getEjbFacade() {
+        return ejbFacade;
+    }
+
+    public void setEjbFacade(VentaFacade ejbFacade) {
+        this.ejbFacade = ejbFacade;
+    }
+
+    public ProductoFacade getProductoFacade() {
+        return productoFacade;
+    }
+
+    public void setProductoFacade(ProductoFacade productoFacade) {
+        this.productoFacade = productoFacade;
+    }
+
+    public List<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<Producto> productos) {
+        this.productos = productos;
+    }
+
+    public Integer getCantidadSeleccionada() {
+        return cantidadSeleccionada;
+    }
+
+    public void setCantidadSeleccionada(Integer cantidadSeleccionada) {
+        this.cantidadSeleccionada = cantidadSeleccionada;
+    }
+
+    public Long getProductoSeleccionado() {
+        return productoSeleccionado;
+    }
+
+    public void setProductoSeleccionado(Long productoSeleccionado) {
+        this.productoSeleccionado = productoSeleccionado;
+    }
+
+    public Long getUsuarioSeleccionado() {
+        return usuarioSeleccionado;
+    }
+
+    public void setUsuarioSeleccionado(Long usuarioSeleccionado) {
+        this.usuarioSeleccionado = usuarioSeleccionado;
+    }
+    
+    public Producto buscarProducto(Long id) {
+        for (Producto p : productos) {
+            if(p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    public Usuario buscarUsuario(Long id) {
+        for (Usuario p : usuarios) {
+            if(p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
+    }
+    
+    public void agregarProducto() {
+        selected.setLineaFactura(selected.getLineaFactura() != null ? selected.getLineaFactura() : new ArrayList<>());
+        LineaFactura lf =  new LineaFactura();
+        lf.setProducto(buscarProducto(productoSeleccionado));
+        lf.setCantidad(cantidadSeleccionada);
+        selected.getLineaFactura().add(lf);
+    }
+    
+    public void eliminarProducto(LineaFactura lf) {
+        selected.getLineaFactura().remove(lf);
     }
 
 }

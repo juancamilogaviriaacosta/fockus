@@ -11,14 +11,46 @@
         <p:dialog id="VentaCreateDlg" widgetVar="VentaCreateDialog" modal="true" resizable="false" appendTo="@(body)" header="#{bundle.CreateVentaTitle}">
             <h:form id="VentaCreateForm">
                 <h:panelGroup id="display">
-                    <p:panelGrid columns="2" rendered="#{ventaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateVentaLabel_usuario}" for="usuario" />
-                        <p:selectOneMenu id="usuario" value="#{ventaController.selected.usuario}" >
+                    <p:panelGrid columns="2" rendered="#{ventaController.selected != null}" style="width: 100%;">
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_usuario}"/>
+                        <p:selectOneMenu id="usuario" value="#{ventaController.usuarioSeleccionado}">
                             <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"
                                            var="usuarioItem"
-                                           itemValue="#{usuarioItem}" itemLabel="#{usuarioItem.nombre}"/>
+                                           itemValue="#{usuarioItem.id}" itemLabel="#{usuarioItem.nombre}"/>
                         </p:selectOneMenu>
                     </p:panelGrid>
+                    
+                    <br/><br/>
+                    
+                    <p:panelGrid columns="5" rendered="#{ventaController.selected != null}"  style="width: 100%;">
+                        <p:outputLabel value="#{bundle.CreateVentaLabel_usuario}"/>
+                        <p:selectOneMenu  value="#{ventaController.productoSeleccionado}" >
+                            <f:selectItems value="#{ventaController.productos}"
+                                           var="tmp"
+                                           itemValue="#{tmp.id}" itemLabel="#{tmp.nombre}"/>
+                        </p:selectOneMenu>
+                        <p:outputLabel value="#{bundle.CreateLineaFacturaLabel_cantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{ventaController.cantidadSeleccionada}" title="#{bundle.CreateLineaFacturaTitle_cantidad}" />
+                        <p:commandButton value="+" actionListener="#{ventaController.agregarProducto}" update="tablaProductos"></p:commandButton>
+                    </p:panelGrid>
+                    
+                    <br/><br/>
+                    
+                    <p:dataTable style="width: 526px;" id="tablaProductos" value="#{ventaController.selected.lineaFactura}" var="tmp">
+                        <p:column headerText="Producto">
+                            <h:outputText value="#{tmp.producto.nombre}"></h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Cantidad">
+                            <h:outputText value="#{tmp.cantidad}"></h:outputText>
+                        </p:column>
+                        
+                        <p:column headerText="Eliminar">
+                            <p:commandButton value="x" immediate="true" actionListener="#{ventaController.eliminarProducto(tmp)}" update="tablaProductos"></p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                    
+                    
                     <p:commandButton actionListener="#{ventaController.create}" value="#{bundle.Save}" update="display,:VentaListForm:datalist,:growl" oncomplete="handleSubmit(args,'VentaCreateDialog');"/>
                     <p:commandButton value="#{bundle.Cancel}" onclick="VentaCreateDialog.hide()"/>
                 </h:panelGroup>

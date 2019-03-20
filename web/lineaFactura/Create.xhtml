@@ -12,8 +12,6 @@
             <h:form id="LineaFacturaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lineaFacturaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateLineaFacturaLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{lineaFacturaController.selected.id}" title="#{bundle.CreateLineaFacturaTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateLineaFacturaLabel_producto}" for="producto" />
                         <p:selectOneMenu id="producto" value="#{lineaFacturaController.selected.producto}" >
                             <f:selectItems value="#{productoController.itemsAvailableSelectOne}"

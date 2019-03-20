@@ -13,7 +13,7 @@
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{lineaFacturaController.selected != null}">
                         <p:outputLabel value="#{bundle.EditLineaFacturaLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{lineaFacturaController.selected.id}" title="#{bundle.EditLineaFacturaTitle_id}" />
+                        <p:inputText id="id" value="#{lineaFacturaController.selected.id}" title="#{bundle.EditLineaFacturaTitle_id}"  readonly="true" disabled="true"/>
                         <p:outputLabel value="#{bundle.EditLineaFacturaLabel_producto}" for="producto" />
                         <p:selectOneMenu id="producto" value="#{lineaFacturaController.selected.producto}" >
                             <f:selectItem itemLabel="#{bundle.SelectOneMessage}"/>

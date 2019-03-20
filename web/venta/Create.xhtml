@@ -12,8 +12,6 @@
             <h:form id="VentaCreateForm">
                 <h:panelGroup id="display">
                     <p:panelGrid columns="2" rendered="#{ventaController.selected != null}">
-                        <p:outputLabel value="#{bundle.CreateVentaLabel_id}" for="id" />
-                        <p:inputText id="id" value="#{ventaController.selected.id}" title="#{bundle.CreateVentaTitle_id}" />
                         <p:outputLabel value="#{bundle.CreateVentaLabel_usuario}" for="usuario" />
                         <p:selectOneMenu id="usuario" value="#{ventaController.selected.usuario}" >
                             <f:selectItems value="#{usuarioController.itemsAvailableSelectOne}"

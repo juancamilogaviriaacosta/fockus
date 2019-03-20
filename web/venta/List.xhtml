@@ -37,8 +37,21 @@
                             <f:facet name="header">
                                 <h:outputText value="#{bundle.ListVentaTitle_usuario}"/>
                             </f:facet>
-                            <h:outputText value="#{item.usuario}"/>
+                            <h:outputText value="#{item.usuario.nombre}"/>
                         </p:column>
+                        
+                        <p:column headerText="Productos">
+                            <p:dataTable style="width: 526px;" id="tablaProductos" value="#{item.lineaFactura}" var="tmp">
+                                <p:column headerText="Producto">
+                                    <h:outputText value="#{tmp.producto.nombre}"></h:outputText>
+                                </p:column>
+
+                                <p:column headerText="Cantidad">
+                                    <h:outputText value="#{tmp.cantidad}"></h:outputText>
+                                </p:column>
+                            </p:dataTable>
+                        </p:column>
+                        
                         <f:facet name="footer">
                             <p:commandButton id="createButton" icon="ui-icon-plus"   value="#{bundle.Create}" actionListener="#{ventaController.prepareCreate}" update=":VentaCreateForm" oncomplete="PF('VentaCreateDialog').show()"/>
                             <p:commandButton id="viewButton"   icon="ui-icon-search" value="#{bundle.View}" update=":VentaViewForm" oncomplete="PF('VentaViewDialog').show()" disabled="#{empty ventaController.selected}"/>
